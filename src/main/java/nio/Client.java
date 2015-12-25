@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,15 +63,20 @@ public class Client extends Application  {
                 while (true){
                     if (channel.read(byteBuffer) > 0){
                         byteBuffer.flip();
-                        List<String> messages = new LinkedList<>();
+//                        List<String> messages = new ArrayList<>();
+                        StringBuilder sb = new StringBuilder();
                         String message;
                         while ((message=handleData(byteBuffer, header))!=null){
-                            messages.add(message);
+                            //messages.add(message);
+                            sb.append(message).append("\n");
                         }
+                        //sb.deleteCharAt(sb.length()-1);
+                        //sb.delete(sb.length()-2,sb.length()-1);
                         Platform.runLater(() -> {
-                            for (String msg : messages){
-                                textArea.appendText(msg+"\n");
-                            }
+//                            for (String msg : messages){
+//                                textArea.appendText(msg+"\n");
+
+                            textArea.appendText(sb.toString());
                         });
                     }
                 }
